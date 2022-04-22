@@ -1,5 +1,4 @@
 const { User } = require('../models');
-const { populate } = require("../models/User");
 
 const userController = {
     getAllUsers(req, res) {
@@ -16,7 +15,6 @@ const userController = {
                 res.status(400);
             });
     },
-
 
     getUserById({ params }, res) {
         User.findOne({ _id: params.id })
@@ -38,11 +36,13 @@ const userController = {
             });
     },
 
-
     createUser({ body }, res) {
         User.create(body)
             .then(dbUserData => res.json(dbUserData))
-            .catch(err => res.status(400).json(err));
+            .catch((err) => {
+                console.log(err);
+                res.status(400);
+            });
     },
 
     updateUser({ params, body }, res) {
@@ -54,7 +54,10 @@ const userController = {
                 }
                 res.json(dbUserData);
             })
-            .catch(err => res.status(400).json(err));
+            .catch((err) => {
+                console.log(err);
+                res.status(400);
+            });
     },
 
     deleteUser({ params }, res) {
@@ -67,17 +70,23 @@ const userController = {
             .then(() => {
                 res.json({ message: 'User has been deleted.' });
             })
-            .catch(err => res.status(400).json(err));
+            .catch((err) => {
+                console.log(err);
+                res.status(400);
+            });
     },
 
     addFriend({ params }, res) {
         User.findOneAndUpdate(
             { _id: params.id },
-            { $addToSet: { friends: params.friendsId } },
+            { $addToSet: { friends: params.friendsId }},
             { new: true }
         )
             .then((dbUserData) => res.json(dbUserData))
-            .catch((err) => res.status(400).json(err));
+            .catch((err) => {
+                console.log(err);
+                res.status(400);
+            });
     },
 
     removeFriend({ params }, res) {
@@ -93,7 +102,10 @@ const userController = {
                 }
                 res.json(dbUserData);
             })
-            .catch((err) => res.status(400).json(err));
+            .catch((err) => {
+                console.log(err);
+                res.status(400);
+            });
     }
 }
 

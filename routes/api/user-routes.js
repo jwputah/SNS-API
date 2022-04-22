@@ -9,11 +9,6 @@ const {
     removeFriend
 } = require('../../controllers/user-controller');
 
-// router
-//     .route('/')
-//     .get()
-//     .post();
-
     // Set up GET all and POST at /api/users
 router
     .route('/')

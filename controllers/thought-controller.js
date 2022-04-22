@@ -31,7 +31,7 @@ const thoughtController = {
             .then((thoughtData) => {
                 return User.findOneAndUpdate(
                     { _id: body.userId },
-                    { $push: { thoughts: thoughtData._id } },
+                    { $push: { thoughts: thoughtData._id }},
                     { new: true }
                 );
             })
@@ -42,7 +42,10 @@ const thoughtController = {
                 }
                 res.json(dbUserData);
             })
-            .catch((err) => res.json(err));
+            .catch(err => {
+                console.log(err);
+                res.status(400).json(err);
+            });
     },
 
     updateThought({ params, body }, res) {
@@ -54,7 +57,10 @@ const thoughtController = {
                 }
                 res.json(dbThoughtData);
             })
-            .catch(err => res.status(400).json(err));
+            .catch(err => {
+                console.log(err);
+                res.status(400).json(err);
+            });
     },
 
     deleteThought({ params }, res) {
@@ -66,13 +72,16 @@ const thoughtController = {
                 }
                 res.json(dbThoughtData);
             })
-            .catch((err) => res.status(400).json(err));
+            .catch(err => {
+                console.log(err);
+                res.status(400).json(err);
+            });
     },
 
     addReaction({ params, body }, res) {
         Thought.findOneAndUpdate(
             { _id: params.thoughtId },
-            { $addToSet: { reactions: body } },
+            { $addToSet: { reactions: body }},
             { new: true, runValidators: true }
         )
             .then(dbThoughtData => {
@@ -81,18 +90,23 @@ const thoughtController = {
                 }
                 res.json(dbThoughtData);
             })
-            .catch(err => res.json(err));
+            .catch(err => {
+                console.log(err);
+                res.status(400).json(err);
+            });
     },
 
     deleteReaction({ params }, res) {
-        console.log(params.thoughtId, params.reactionId);
         Thought.findOneAndUpdate(
             { _id: params.thoughtId },
-            { $pull: { reactions: { reactionId: params.reactionId } } },
+            { $pull: { reactions: { reactionId: params.reactionId }}},
             { runValidators: true, new: true }
         )
             .then(dbUserData => res.json(dbUserData))
-            .catch(err => res.json(err));
+            .catch(err => {
+                console.log(err);
+                res.status(400).json(err);
+            });
     }
 }
 
