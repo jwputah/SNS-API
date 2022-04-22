@@ -20,7 +20,10 @@ const reactionSchema = new Schema(
             type: Date,
             default: Date.now(),
             get: (createdAtVal) => moment(createdAtVal).format('MMM DD, YYYY [at] hh:mm a')
+        },
+    },
+    {
+        toSJON: {
+            getters: true
         }
     });
-
-    module.exports = reactionSchema;
